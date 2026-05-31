@@ -4,313 +4,150 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aatif — Daily Timetable</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Mono:wght@400;500&family=DM+Serif+Display&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f4f0;--surface:#fff;--surface-hover:#fafaf8;--border:#e8e8e4;--border-dark:#1a1a1a;
+  --text-primary:#1a1a1a;--text-secondary:#666;--text-muted:#999;
+  --header-bg:#1a1a1a;
+  --tag-food-bg:#d4f0d4;--tag-food-text:#1a5c1a;
+  --tag-train-bg:#fde8c8;--tag-train-text:#7a3e00;
+  --tag-study-bg:#e8e4fc;--tag-study-text:#3a2a8a;
+  --tag-supp-bg:#daeaf8;--tag-supp-text:#0d3f6e;
+  --tag-skin-bg:#fce8f0;--tag-skin-text:#6e0d35;
+  --tag-sleep-bg:#e8e8e8;--tag-sleep-text:#333;
+  --tag-prep-bg:#f0ede0;--tag-prep-text:#4a4020;
+  --tag-rest-bg:#fce8f8;--tag-rest-text:#6e0d6e;
+  --flag-bg:#fff3ee;--flag-border:#f5c4a8;--flag-text:#a03000;
+  --good-bg:#eef8ee;--good-border:#a8d8a8;--good-text:#1a5c1a;
+  --morning-dot:#f59e0b;--morning-label:#7a3e00;--morning-bg:#fff8ee;--morning-border:rgba(245,158,11,.2);
+  --office-dot:#3b82f6;--office-label:#0d3f6e;--office-bg:#eef4ff;--office-border:rgba(59,130,246,.2);
+  --evening-dot:#8b5cf6;--evening-label:#3a2a8a;--evening-bg:#f0eeff;--evening-border:rgba(139,92,246,.2);
+  --weekly-dot:#10b981;--weekly-label:#1a5c1a;--weekly-bg:#eefaf4;--weekly-border:rgba(16,185,129,.2);
+  --weekend-dot:#e11d48;--weekend-label:#9f1239;--weekend-bg:#fff0f3;--weekend-border:rgba(225,29,72,.2);
+  --spine:#e0e0e0;--dot-inactive:#ccc;
+}
+body{background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--text-primary);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-  :root {
-    --bg: #f5f4f0;
-    --surface: #ffffff;
-    --surface-hover: #fafaf8;
-    --border: #e8e8e4;
-    --border-dark: #1a1a1a;
-    --text-primary: #1a1a1a;
-    --text-secondary: #666666;
-    --text-muted: #999999;
-    --header-bg: #1a1a1a;
-    --header-text: #ffffff;
-    --tag-food-bg: #d4f0d4; --tag-food-text: #1a5c1a;
-    --tag-train-bg: #fde8c8; --tag-train-text: #7a3e00;
-    --tag-study-bg: #e8e4fc; --tag-study-text: #3a2a8a;
-    --tag-supp-bg: #daeaf8; --tag-supp-text: #0d3f6e;
-    --tag-skin-bg: #fce8f0; --tag-skin-text: #6e0d35;
-    --tag-sleep-bg: #e8e8e8; --tag-sleep-text: #333333;
-    --tag-prep-bg: #f0ede0; --tag-prep-text: #4a4020;
-    --flag-bg: #fff3ee; --flag-border: #f5c4a8; --flag-text: #a03000;
-    --good-bg: #eef8ee; --good-border: #a8d8a8; --good-text: #1a5c1a;
-    --morning-dot: #f59e0b; --morning-label: #7a3e00; --morning-bg: #fff8ee; --morning-border: rgba(245,158,11,0.2);
-    --office-dot: #3b82f6; --office-label: #0d3f6e; --office-bg: #eef4ff; --office-border: rgba(59,130,246,0.2);
-    --evening-dot: #8b5cf6; --evening-label: #3a2a8a; --evening-bg: #f0eeff; --evening-border: rgba(139,92,246,0.2);
-    --weekly-dot: #10b981; --weekly-label: #1a5c1a; --weekly-bg: #eefaf4; --weekly-border: rgba(16,185,129,0.2);
-    --spine: #e0e0e0;
-    --dot-inactive: #cccccc;
-  }
+/* HEADER */
+.header{background:var(--header-bg);padding:28px 24px 0;position:sticky;top:0;z-index:100}
+.header-eyebrow{font-family:'DM Mono',monospace;font-size:10px;font-weight:500;color:#666;letter-spacing:.12em;text-transform:uppercase;margin-bottom:4px}
+.header-title{font-family:'DM Serif Display',serif;font-size:24px;color:#fff;font-weight:400;letter-spacing:-.01em;margin-bottom:4px}
+.header-sub{font-family:'DM Mono',monospace;font-size:10px;color:#555;letter-spacing:.04em;margin-bottom:14px}
 
-  body {
-    background: var(--bg);
-    font-family: 'DM Sans', sans-serif;
-    color: var(--text-primary);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-  }
+/* TABS */
+.tab-bar{display:flex;gap:0;overflow-x:auto;scrollbar-width:none;border-top:1px solid #333}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;color:#666;background:none;border:none;padding:10px 16px 12px;cursor:pointer;position:relative;transition:color .2s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+.tab-btn.active{color:#fff}
+.tab-btn.active::after{content:'';position:absolute;bottom:0;left:16px;right:16px;height:2px;background:#fff;border-radius:2px 2px 0 0}
 
-  /* HEADER */
-  .header {
-    background: var(--header-bg);
-    padding: 36px 24px 30px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .header-eyebrow {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    color: #666;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .header-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 26px;
-    color: #fff;
-    font-weight: 400;
-    letter-spacing: -0.01em;
-    margin-bottom: 6px;
-  }
-  .header-sub {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: #555;
-    letter-spacing: 0.04em;
-  }
+/* MAIN */
+.main{max-width:600px;margin:0 auto;padding:24px 16px 60px}
+.tab-content{display:none;animation:fadeIn .3s ease}
+.tab-content.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-  /* MAIN */
-  .main {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 24px 16px 60px;
-  }
+/* SECTION */
+.section{margin-bottom:28px}
+.section-header{display:flex;align-items:center;gap:8px;padding:8px 14px;border-radius:8px;margin-bottom:14px;border:1px solid transparent}
+.section-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.section-label{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.s-morning .section-header{background:var(--morning-bg);border-color:var(--morning-border)}
+.s-morning .section-dot{background:var(--morning-dot)}
+.s-morning .section-label{color:var(--morning-label)}
+.s-office .section-header{background:var(--office-bg);border-color:var(--office-border)}
+.s-office .section-dot{background:var(--office-dot)}
+.s-office .section-label{color:var(--office-label)}
+.s-evening .section-header{background:var(--evening-bg);border-color:var(--evening-border)}
+.s-evening .section-dot{background:var(--evening-dot)}
+.s-evening .section-label{color:var(--evening-label)}
+.s-weekly .section-header{background:var(--weekly-bg);border-color:var(--weekly-border)}
+.s-weekly .section-dot{background:var(--weekly-dot)}
+.s-weekly .section-label{color:var(--weekly-label)}
+.s-weekend .section-header{background:var(--weekend-bg);border-color:var(--weekend-border)}
+.s-weekend .section-dot{background:var(--weekend-dot)}
+.s-weekend .section-label{color:var(--weekend-label)}
 
-  /* SECTION */
-  .section { margin-bottom: 32px; }
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 14px;
-    border-radius: 8px;
-    margin-bottom: 14px;
-    border: 1px solid transparent;
-  }
-  .section-dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-  .section-label {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .s-morning .section-header { background: var(--morning-bg); border-color: var(--morning-border); }
-  .s-morning .section-dot { background: var(--morning-dot); }
-  .s-morning .section-label { color: var(--morning-label); }
-  .s-office .section-header { background: var(--office-bg); border-color: var(--office-border); }
-  .s-office .section-dot { background: var(--office-dot); }
-  .s-office .section-label { color: var(--office-label); }
-  .s-evening .section-header { background: var(--evening-bg); border-color: var(--evening-border); }
-  .s-evening .section-dot { background: var(--evening-dot); }
-  .s-evening .section-label { color: var(--evening-label); }
-  .s-weekly .section-header { background: var(--weekly-bg); border-color: var(--weekly-border); }
-  .s-weekly .section-dot { background: var(--weekly-dot); }
-  .s-weekly .section-label { color: var(--weekly-label); }
+/* TIMELINE */
+.timeline-item{display:flex;position:relative}
+.timeline-spine{display:flex;flex-direction:column;align-items:center;width:28px;flex-shrink:0;margin-right:14px}
+.spine-dot{width:10px;height:10px;border-radius:50%;background:var(--dot-inactive);border:2px solid var(--border-dark);margin-top:13px;flex-shrink:0;transition:background .2s;z-index:1}
+.timeline-item.open .spine-dot{background:var(--border-dark)}
+.spine-line{width:1px;flex:1;background:var(--spine);margin-top:2px}
+.timeline-item.last-item .spine-line{display:none}
 
-  /* TIMELINE */
-  .timeline-item {
-    display: flex;
-    gap: 0;
-    position: relative;
-  }
-  .timeline-spine {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 28px;
-    flex-shrink: 0;
-    margin-right: 14px;
-  }
-  .spine-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-    background: var(--dot-inactive);
-    border: 2px solid var(--border-dark);
-    margin-top: 13px;
-    flex-shrink: 0;
-    transition: background 0.2s;
-    z-index: 1;
-  }
-  .timeline-item.open .spine-dot { background: var(--border-dark); }
-  .spine-line {
-    width: 1px;
-    flex: 1;
-    background: var(--spine);
-    margin-top: 2px;
-  }
-  .timeline-item.last-item .spine-line { display: none; }
+/* CARD */
+.card-wrap{flex:1;margin-bottom:8px;padding-bottom:2px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 16px;cursor:pointer;transition:border-color .18s,background .18s;-webkit-tap-highlight-color:transparent}
+.card:hover{border-color:#ccc}
+.timeline-item.open .card{background:var(--surface-hover);border-color:var(--border-dark)}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.card-left{flex:1}
+.card-time{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:.06em;display:block;margin-bottom:3px;text-transform:uppercase}
+.card-title{font-size:14px;font-weight:600;color:var(--text-primary);line-height:1.3}
+.card-tags{margin-top:5px}
+.tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:4px;margin-top:3px;letter-spacing:.02em}
+.tag-food{background:var(--tag-food-bg);color:var(--tag-food-text)}
+.tag-train,.tag-preworkout{background:var(--tag-train-bg);color:var(--tag-train-text)}
+.tag-study{background:var(--tag-study-bg);color:var(--tag-study-text)}
+.tag-supp{background:var(--tag-supp-bg);color:var(--tag-supp-text)}
+.tag-skin{background:var(--tag-skin-bg);color:var(--tag-skin-text)}
+.tag-sleep{background:var(--tag-sleep-bg);color:var(--tag-sleep-text)}
+.tag-prep{background:var(--tag-prep-bg);color:var(--tag-prep-text)}
+.tag-rest{background:var(--tag-rest-bg);color:var(--tag-rest-text)}
+.chevron{font-size:14px;color:#bbb;margin-top:11px;flex-shrink:0;transition:transform .2s ease;line-height:1}
+.timeline-item.open .chevron{transform:rotate(180deg)}
 
-  /* CARD */
-  .card-wrap { flex: 1; margin-bottom: 8px; padding-bottom: 2px; }
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 12px 16px;
-    cursor: pointer;
-    transition: border-color 0.18s, background 0.18s;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .card:hover { border-color: #ccc; }
-  .timeline-item.open .card {
-    background: var(--surface-hover);
-    border-color: var(--border-dark);
-  }
-  .card-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  .card-left { flex: 1; }
-  .card-time {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.06em;
-    display: block;
-    margin-bottom: 3px;
-    text-transform: uppercase;
-  }
-  .card-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-primary);
-    line-height: 1.3;
-  }
-  .card-tags { margin-top: 5px; }
-  .tag {
-    display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 9px;
-    border-radius: 20px;
-    margin-right: 4px;
-    margin-top: 3px;
-    letter-spacing: 0.02em;
-  }
-  .tag-food { background: var(--tag-food-bg); color: var(--tag-food-text); }
-  .tag-train, .tag-preworkout { background: var(--tag-train-bg); color: var(--tag-train-text); }
-  .tag-study { background: var(--tag-study-bg); color: var(--tag-study-text); }
-  .tag-supp { background: var(--tag-supp-bg); color: var(--tag-supp-text); }
-  .tag-skin { background: var(--tag-skin-bg); color: var(--tag-skin-text); }
-  .tag-sleep { background: var(--tag-sleep-bg); color: var(--tag-sleep-text); }
-  .tag-prep { background: var(--tag-prep-bg); color: var(--tag-prep-text); }
+/* DETAIL */
+.card-detail{display:none;margin-top:12px;padding-top:12px;border-top:1px solid #eee}
+.timeline-item.open .card-detail{display:block}
+.detail-line{font-size:13px;color:#444;line-height:1.65;margin-bottom:2px}
+.detail-heading{font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin:10px 0 4px;display:block}
+.notice{margin-top:10px;padding:7px 11px;border-radius:6px;font-size:12px;font-weight:500;line-height:1.5}
+.notice-flag{background:var(--flag-bg);border:1px solid var(--flag-border);color:var(--flag-text)}
+.notice-good{background:var(--good-bg);border:1px solid var(--good-border);color:var(--good-text)}
 
-  .chevron {
-    font-size: 14px;
-    color: #bbb;
-    margin-top: 11px;
-    flex-shrink: 0;
-    transition: transform 0.2s ease;
-    line-height: 1;
-  }
-  .timeline-item.open .chevron { transform: rotate(180deg); }
+/* WEEKEND HERO BANNER */
+.day-switcher{display:flex;gap:8px;margin-bottom:20px}
+.day-btn{flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:var(--surface);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;text-align:center}
+.day-btn.active{background:var(--border-dark);color:#fff;border-color:var(--border-dark)}
+.day-panel{display:none}
+.day-panel.active{display:block;animation:fadeIn .25s ease}
 
-  /* DETAIL */
-  .card-detail {
-    display: none;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid #eee;
-  }
-  .timeline-item.open .card-detail { display: block; }
-  .detail-line {
-    font-size: 13px;
-    color: #444;
-    line-height: 1.65;
-    margin-bottom: 2px;
-  }
-  .detail-heading {
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--text-muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin: 10px 0 4px;
-    display: block;
-  }
-  .detail-spacer { height: 6px; }
-  .notice {
-    margin-top: 10px;
-    padding: 7px 11px;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 1.5;
-  }
-  .notice-flag { background: var(--flag-bg); border: 1px solid var(--flag-border); color: var(--flag-text); }
-  .notice-good { background: var(--good-bg); border: 1px solid var(--good-border); color: var(--good-text); }
-
-  /* FOOTER */
-  .footer {
-    text-align: center;
-    padding: 20px;
-    font-family: 'DM Mono', monospace;
-    font-size: 10px;
-    color: var(--text-muted);
-    letter-spacing: 0.06em;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .section { animation: fadeIn 0.4s ease both; }
-  .section:nth-child(1) { animation-delay: 0.05s; }
-  .section:nth-child(2) { animation-delay: 0.12s; }
-  .section:nth-child(3) { animation-delay: 0.19s; }
-  .section:nth-child(4) { animation-delay: 0.26s; }
+.footer{text-align:center;padding:20px;font-family:'DM Mono',monospace;font-size:10px;color:var(--text-muted);letter-spacing:.06em}
 </style>
 </head>
 <body>
-
 <header class="header">
   <p class="header-eyebrow">Daily Routine</p>
   <h1 class="header-title">Aatif's Timetable</h1>
   <p class="header-sub">5:30 AM — 10:30 PM &nbsp;·&nbsp; 7h sleep &nbsp;·&nbsp; PPL Recomposition</p>
+  <nav class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('weekday',this)">Mon – Fri</button>
+    <button class="tab-btn" onclick="showTab('weekend',this)">Weekend</button>
+  </nav>
 </header>
 
 <main class="main">
 
-  <!-- MORNING -->
+<!-- ═══════════════ WEEKDAY ═══════════════ -->
+<div class="tab-content active" id="tab-weekday">
+
   <div class="section s-morning">
-    <div class="section-header">
-      <div class="section-dot"></div>
-      <span class="section-label">Morning Block</span>
-    </div>
+    <div class="section-header"><div class="section-dot"></div><span class="section-label">Morning Block</span></div>
 
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">5:30 AM</span>
-            <span class="card-title">Wake up — Morning detox drink</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">5:30 AM</span><span class="card-title">Wake up — Morning detox drink</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
-          <p class="detail-line">300–350ml hot water at 80–85°C (stop before rolling boil). Add all ingredients, steep 5–7 mins, strain and drink.</p>
+          <p class="detail-line">300–350ml hot water at 80–85°C. Steep 5–7 mins, strain, drink.</p>
           <span class="detail-heading">Ingredients</span>
-          <p class="detail-line">½ tsp jeera &nbsp;·&nbsp; ½ tsp saunf &nbsp;·&nbsp; ¼ tsp ajwain &nbsp;·&nbsp; ¼ tsp haldi &nbsp;·&nbsp; 2–3 cracks black pepper &nbsp;·&nbsp; ¼ tsp cinnamon</p>
+          <p class="detail-line">½ tsp jeera · ½ tsp saunf · ¼ tsp ajwain · ¼ tsp haldi · 2–3 cracks black pepper · ¼ tsp cinnamon</p>
           <span class="detail-heading">Stronger version</span>
-          <p class="detail-line">Add everything to cold water, bring to boil, simmer 3 minutes, strain. More potent taste.</p>
+          <p class="detail-line">Add to cold water, bring to boil, simmer 3 mins, strain.</p>
         </div>
       </div></div>
     </div>
@@ -318,19 +155,12 @@
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">5:45 AM</span>
-            <span class="card-title">Pre-workout shake + freshen up</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-preworkout">Pre-workout</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">5:45 AM</span><span class="card-title">Pre-workout shake + freshen up</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-train">Pre-workout</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
           <span class="detail-heading">Shake</span>
-          <p class="detail-line">1 cup milk &nbsp;·&nbsp; 1 banana &nbsp;·&nbsp; 2 tsp peanut butter &nbsp;·&nbsp; 1 tsp honey &nbsp;·&nbsp; 1 tsp coffee &nbsp;·&nbsp; 1 scoop whey protein. Blend and drink.</p>
+          <p class="detail-line">1 cup milk · 1 banana · 2 tsp peanut butter · 1 tsp honey · 1 tsp coffee · 1 scoop whey. Blend and drink.</p>
           <span class="detail-heading">Freshen up</span>
-          <p class="detail-line">Wash face with lukewarm water (never hot). Pat dry — do not rub. Apply CeraVe Moisturising Cream immediately. Brush teeth.</p>
+          <p class="detail-line">Wash face lukewarm water, pat dry. CeraVe Moisturising Cream immediately. Brush teeth.</p>
         </div>
       </div></div>
     </div>
@@ -338,19 +168,11 @@
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">6:00 AM</span>
-            <span class="card-title">Workout</span>
-            <div class="card-tags"><span class="tag tag-train">Training</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">6:00 AM</span><span class="card-title">Workout</span><div class="card-tags"><span class="tag tag-train">Training</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
-          <p class="detail-line">6-day PPL programme. ~75 min session.</p>
-          <span class="detail-heading">Session order</span>
-          <p class="detail-line">Dynamic warm-up (no static stretching) → Compound lifts → Accessories → Core → Cooldown stretch</p>
-          <div class="notice notice-flag">⚑ No static stretching pre-workout — reduces force output and hurts performance.</div>
+          <p class="detail-line">6-day PPL programme · ~75 min session.</p>
+          <span class="detail-heading">Order</span>
+          <p class="detail-line">Dynamic warm-up (no static stretching) → Compounds → Accessories → Core → Cooldown</p>
         </div>
       </div></div>
     </div>
@@ -358,16 +180,9 @@
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">7:15 AM</span>
-            <span class="card-title">Post-workout shake</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">Creatine</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">7:15 AM</span><span class="card-title">Post-workout shake</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">Creatine</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
-          <p class="detail-line">1 scoop whey protein + 5g creatine monohydrate. Mix in water or milk. Drink immediately post-session — do not skip.</p>
+          <p class="detail-line">1 scoop whey + 5g creatine monohydrate. Mix in water or milk. Drink immediately.</p>
         </div>
       </div></div>
     </div>
@@ -375,19 +190,12 @@
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">7:30 AM</span>
-            <span class="card-title">Study session 1 — 90 mins</span>
-            <div class="card-tags"><span class="tag tag-study">Study</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">7:30 AM</span><span class="card-title">Study session 1 — 90 mins</span><div class="card-tags"><span class="tag tag-study">Study</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
           <span class="detail-heading">Structure</span>
-          <p class="detail-line">40 min deep work → 10 min break (stand up, water, no screen) → 40 min deep work</p>
-          <span class="detail-heading">What to study here</span>
-          <p class="detail-line">New material, problem solving, active recall. Brain is sharpest post-exercise — this is your highest-value cognitive window of the day. Protect it.</p>
+          <p class="detail-line">40 min deep work → 10 min break (stand, water, no screen) → 40 min deep work</p>
+          <span class="detail-heading">What to study</span>
+          <p class="detail-line">New material, problem solving, active recall. Brain is sharpest post-exercise — protect this window.</p>
         </div>
       </div></div>
     </div>
@@ -395,60 +203,56 @@
     <div class="timeline-item last-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">9:00 AM</span>
-            <span class="card-title">Breakfast + full day meal prep</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-prep">Prep</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">9:00 AM</span><span class="card-title">Breakfast + full day meal prep</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-prep">Prep</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
           <span class="detail-heading">Cook & eat now</span>
-          <p class="detail-line">3 whole eggs (scrambled or fried) + 2 multigrain/brown bread toast</p>
+          <p class="detail-line">3 whole eggs + 2 multigrain/brown bread toast</p>
           <span class="detail-heading">Boil while eating</span>
-          <p class="detail-line">3 eggs — 2 for 11 AM snack, 1 spare for 4:30 PM if needed. Done by the time you finish breakfast.</p>
+          <p class="detail-line">3 eggs — 2 for 11 AM snack, 1 spare for 4:30 PM</p>
           <span class="detail-heading">Pack — Snack Box 1 (11 AM)</span>
-          <p class="detail-line">2 boiled eggs &nbsp;·&nbsp; 8–10 almonds & walnuts &nbsp;·&nbsp; 1 tbsp seed mix</p>
+          <p class="detail-line">2 boiled eggs · 8–10 almonds & walnuts · 1 tbsp seed mix</p>
           <span class="detail-heading">Pack — Snack Box 2 (4:30 PM)</span>
-          <p class="detail-line">1 fruit &nbsp;·&nbsp; 4–5 almonds + 2 walnuts &nbsp;·&nbsp; 1 boiled egg (optional — pack on hungrier days)</p>
+          <p class="detail-line">1 fruit · 4–5 almonds + 2 walnuts · 1 boiled egg (optional)</p>
           <span class="detail-heading">Pack — Dinner Box (6:45 PM at office)</span>
-          <p class="detail-line">180–200g chicken breast — grill or pan cook, ~10 mins, simple seasoning</p>
-          <p class="detail-line">Fist-sized cooked rice</p>
-          <p class="detail-line">Cucumber + tomato + onion sliced dry — add lemon at office before eating</p>
-          <p class="detail-line">1 tbsp seed mix in a small zip bag — sprinkle on salad at office</p>
+          <p class="detail-line">180–200g cooked chicken breast · fist-sized rice · cucumber + tomato + onion dry · lemon on side · 1 tbsp seed mix in zip bag</p>
           <span class="detail-heading">Pack — Supplements</span>
-          <p class="detail-line"><strong>Take before leaving:</strong> Multivitamin · Biotin 5000mcg · Zinc Bisglycinate · Liv 52 DS</p>
-          <p class="detail-line"><strong>Lunch pouch:</strong> Vitamin D3+K2 (1 tablet)</p>
-          <p class="detail-line"><strong>Dinner pouch:</strong> Omega-3 fish oil + Ashwagandha KSM-66</p>
+          <p class="detail-line">Take before leaving: Multivitamin · Biotin · Zinc · Liv 52 DS</p>
+          <p class="detail-line">Lunch pouch: Vitamin D3+K2</p>
+          <p class="detail-line">Dinner pouch: Omega-3 · Ashwagandha</p>
           <span class="detail-heading">Water</span>
-          <p class="detail-line">Fill 1L bottle. Refill at office. Target 3–3.5L across the day — more on training days.</p>
-          <div class="notice notice-flag">⚑ Total active prep time: ~20–25 mins. Chicken is the only real cook item.</div>
+          <p class="detail-line">Fill 1L bottle. Target 3–3.5L across the day.</p>
+          <div class="notice notice-flag">⚑ Total active prep: ~20–25 mins. Chicken is the only real cook item.</div>
         </div>
       </div></div>
     </div>
   </div>
 
-  <!-- OFFICE -->
   <div class="section s-office">
-    <div class="section-header">
-      <div class="section-dot"></div>
-      <span class="section-label">Office Block</span>
+    <div class="section-header"><div class="section-dot"></div><span class="section-label">Office Block</span></div>
+
+    <div class="timeline-item">
+      <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+      <div class="card-wrap"><div class="card" onclick="toggle(this)">
+        <div class="card-top"><div class="card-left"><span class="card-time">9:30 AM</span><span class="card-title">Leave for office</span><div class="card-tags"><span class="tag tag-supp">Supplements</span></div></div><span class="chevron">▾</span></div>
+        <div class="card-detail"><p class="detail-line">All meals and supplements packed. Take morning supplements before stepping out.</p></div>
+      </div></div>
     </div>
 
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">9:30 AM</span>
-            <span class="card-title">Leave for office</span>
-            <div class="card-tags"><span class="tag tag-supp">Supplements</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">11:00 AM</span><span class="card-title">Mid-morning snack</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
+        <div class="card-detail"><p class="detail-line">Snack Box 1: 2 boiled eggs + almonds & walnuts + 1 tbsp seed mix.</p></div>
+      </div></div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+      <div class="card-wrap"><div class="card" onclick="toggle(this)">
+        <div class="card-top"><div class="card-left"><span class="card-time">1:30 PM</span><span class="card-title">Lunch</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">D3+K2</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
-          <p class="detail-line">All meals and supplements packed and ready. Take morning supplements before stepping out: Multivitamin · Biotin · Zinc · Liv 52 DS — with breakfast.</p>
+          <p class="detail-line">2 roti + daal + sabzi. Add paneer or chicken 3–4 days/week. Sprinkle 1 tbsp seed mix over daal or sabzi.</p>
+          <p class="detail-line">Take Vitamin D3+K2 with this meal — fat content aids absorption.</p>
         </div>
       </div></div>
     </div>
@@ -456,70 +260,18 @@
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">11:00 AM</span>
-            <span class="card-title">Mid-morning snack</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
-        <div class="card-detail">
-          <p class="detail-line">Snack Box 1: 2 boiled eggs + 8–10 almonds & walnuts + 1 tbsp seed mix.</p>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">4:30 PM</span><span class="card-title">Afternoon snack</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
+        <div class="card-detail"><p class="detail-line">Snack Box 2: 1 fruit + 4–5 almonds + 2 walnuts. Add boiled egg if packed and hungry.</p></div>
       </div></div>
     </div>
 
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">1:30 PM</span>
-            <span class="card-title">Lunch</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">D3+K2</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">6:45 PM</span><span class="card-title">Dinner — at office before leaving</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">Omega-3</span><span class="tag tag-supp">Ashwagandha</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
-          <p class="detail-line">2 roti + daal + sabzi. Add paneer or chicken 3–4 days/week for extra protein.</p>
-          <p class="detail-line">Sprinkle 1 tbsp seed mix over daal or sabzi — zero prep, no taste conflict.</p>
-          <p class="detail-line">Take Vitamin D3+K2 with this meal — fat content here aids absorption.</p>
-        </div>
-      </div></div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
-      <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">4:30 PM</span>
-            <span class="card-title">Afternoon snack</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
-        <div class="card-detail">
-          <p class="detail-line">Snack Box 2: 1 fruit + 4–5 almonds + 2 walnuts. Add boiled egg if packed and hungry.</p>
-        </div>
-      </div></div>
-    </div>
-
-    <div class="timeline-item">
-      <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
-      <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">6:45 PM</span>
-            <span class="card-title">Dinner — at office before leaving</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">Omega-3</span><span class="tag tag-supp">Ashwagandha</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
-        <div class="card-detail">
-          <p class="detail-line">Dinner Box: 180–200g chicken breast + fist-sized rice + salad (add lemon now) + seed mix on salad.</p>
-          <p class="detail-line">Take Omega-3 fish oil + Ashwagandha KSM-66 with this meal.</p>
+          <p class="detail-line">Dinner Box: 180–200g chicken + fist-sized rice + salad (add lemon now) + seed mix on salad.</p>
+          <p class="detail-line">Take Omega-3 + Ashwagandha with this meal.</p>
           <div class="notice notice-good">✓ Eating at office keeps dinner well within the 9 PM window.</div>
         </div>
       </div></div>
@@ -528,49 +280,24 @@
     <div class="timeline-item last-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">7:00 PM</span>
-            <span class="card-title">Leave office — drive home</span>
-            <div class="card-tags"></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
-        <div class="card-detail">
-          <p class="detail-line">~90 min drive. Dinner already done. No eating during the drive.</p>
-          <div class="notice notice-good">✓ Home by ~8:30 PM — enough time to decompress before study session 2.</div>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">7:00 PM</span><span class="card-title">Leave office — drive home</span><div class="card-tags"></div></div><span class="chevron">▾</span></div>
+        <div class="card-detail"><p class="detail-line">~90 min drive. Dinner done. No eating during drive.</p></div>
       </div></div>
     </div>
   </div>
 
-  <!-- EVENING -->
   <div class="section s-evening">
-    <div class="section-header">
-      <div class="section-dot"></div>
-      <span class="section-label">Evening Block</span>
-    </div>
+    <div class="section-header"><div class="section-dot"></div><span class="section-label">Evening Block</span></div>
 
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">8:30 PM</span>
-            <span class="card-title">Home — skincare routine</span>
-            <div class="card-tags"><span class="tag tag-skin">Skincare</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">8:30 PM</span><span class="card-title">Home — skincare routine</span><div class="card-tags"><span class="tag tag-skin">Skincare</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
           <span class="detail-heading">Every evening</span>
-          <p class="detail-line">Cleanse with Cetaphil Gentle Cleanser. Lukewarm water only — never hot. Pat dry, do not rub.</p>
-          <p class="detail-line">Apply CeraVe Moisturising Cream to face and scalp immediately while slightly damp.</p>
-          <p class="detail-line">Apply Minoxidil 5% on dry scalp after moisturiser has absorbed.</p>
+          <p class="detail-line">Cetaphil Gentle Cleanser · lukewarm water · pat dry. CeraVe Moisturising Cream on face and scalp immediately. Minoxidil 5% after moisturiser absorbs.</p>
           <span class="detail-heading">2–3× per week only</span>
-          <p class="detail-line">Use CeraVe SA Cleanser instead of regular cleanser — chemical exfoliant for flaky patches. No physical scrubbing. Apply before moisturiser.</p>
-          <span class="detail-heading">Severe dry patches</span>
-          <p class="detail-line">Apply a thin layer of CeraVe Healing Ointment on problem areas before moisturiser.</p>
+          <p class="detail-line">CeraVe SA Cleanser instead — chemical exfoliant. No scrubbing. Before moisturiser.</p>
         </div>
       </div></div>
     </div>
@@ -578,19 +305,12 @@
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">9:00 PM</span>
-            <span class="card-title">Study session 2 — 90 mins</span>
-            <div class="card-tags"><span class="tag tag-study">Study</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">9:00 PM</span><span class="card-title">Study session 2 — 90 mins</span><div class="card-tags"><span class="tag tag-study">Study</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
           <span class="detail-heading">Structure</span>
           <p class="detail-line">40 min → 10 min break → 40 min</p>
-          <span class="detail-heading">What to study here</span>
-          <p class="detail-line">Review, consolidation, spaced repetition, reading. Lower intensity than morning. Avoid heavy new material if focus is degraded after a full office day.</p>
+          <span class="detail-heading">What to study</span>
+          <p class="detail-line">Review, consolidation, spaced repetition. Lower intensity — avoid heavy new material after full office day.</p>
         </div>
       </div></div>
     </div>
@@ -598,18 +318,9 @@
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">10:15 PM</span>
-            <span class="card-title">Wind down</span>
-            <div class="card-tags"><span class="tag tag-supp">Magnesium</span><span class="tag tag-sleep">Sleep</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">10:15 PM</span><span class="card-title">Wind down</span><div class="card-tags"><span class="tag tag-supp">Magnesium</span><span class="tag tag-sleep">Sleep</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
-          <p class="detail-line">Take Magnesium Glycinate 300–400mg.</p>
-          <p class="detail-line">Screen brightness down or off. No stimulating content.</p>
-          <p class="detail-line">CeraVe Healing Ointment on any dry patches if needed before final moisturiser.</p>
+          <p class="detail-line">Magnesium Glycinate 300–400mg. Screen off. CeraVe Healing Ointment on dry patches if needed.</p>
         </div>
       </div></div>
     </div>
@@ -617,61 +328,32 @@
     <div class="timeline-item last-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">10:30 PM</span>
-            <span class="card-title">Sleep</span>
-            <div class="card-tags"><span class="tag tag-sleep">Sleep</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">10:30 PM</span><span class="card-title">Sleep</span><div class="card-tags"><span class="tag tag-sleep">Sleep</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
-          <p class="detail-line">10:30 PM to 5:30 AM — 7 hours.</p>
-          <p class="detail-line">Non-negotiable for recomposition. Muscle repair, fat metabolism, and cognitive retention from study sessions all happen in this window.</p>
-          <div class="notice notice-good">✓ 7 hours — upgraded from 6.5. Directly improves muscle repair, fat metabolism, and study retention.</div>
+          <p class="detail-line">10:30 PM – 5:30 AM · 7 hours.</p>
+          <div class="notice notice-good">✓ 7 hours — muscle repair, fat metabolism, and study retention all depend on this window.</div>
         </div>
       </div></div>
     </div>
   </div>
 
-  <!-- WEEKLY -->
   <div class="section s-weekly">
-    <div class="section-header">
-      <div class="section-dot"></div>
-      <span class="section-label">Weekly</span>
-    </div>
+    <div class="section-header"><div class="section-dot"></div><span class="section-label">Weekly (not daily)</span></div>
 
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">1× / week</span>
-            <span class="card-title">Paya soup</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
-        <div class="card-detail">
-          <p class="detail-line">4 goat feet, pressure cooked 15–20 whistles with full spice mix. Drink broth first, then eat the meat.</p>
-          <p class="detail-line">Natural collagen source — makes collagen peptide supplements unnecessary.</p>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">1× / week</span><span class="card-title">Paya soup</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
+        <div class="card-detail"><p class="detail-line">4 goat feet, pressure cooked 15–20 whistles with full spice mix. Drink broth first, then eat meat. Natural collagen — no supplement needed.</p></div>
       </div></div>
     </div>
 
     <div class="timeline-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">1× / week</span>
-            <span class="card-title">Cheat meal</span>
-            <div class="card-tags"><span class="tag tag-food">Food</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">1× / week</span><span class="card-title">Cheat meal</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
         <div class="card-detail">
-          <p class="detail-line">Once per week maximum. Options: Parmesan chicken pasta · smash burger · ramen · Bengali food.</p>
+          <p class="detail-line">Once per week max. Options: Parmesan chicken pasta · smash burger · ramen · Bengali food.</p>
           <div class="notice notice-flag">⚑ Flag if it becomes 2× or more per week.</div>
         </div>
       </div></div>
@@ -680,31 +362,363 @@
     <div class="timeline-item last-item">
       <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
       <div class="card-wrap"><div class="card" onclick="toggle(this)">
-        <div class="card-top">
-          <div class="card-left">
-            <span class="card-time">2–3× / week</span>
-            <span class="card-title">Evening exfoliation</span>
-            <div class="card-tags"><span class="tag tag-skin">Skincare</span></div>
-          </div>
-          <span class="chevron">▾</span>
-        </div>
-        <div class="card-detail">
-          <p class="detail-line">Replace regular evening cleanser with CeraVe SA Cleanser. Chemical exfoliant only — no physical scrubbing. Apply before moisturiser as normal.</p>
-        </div>
+        <div class="card-top"><div class="card-left"><span class="card-time">2–3× / week</span><span class="card-title">Evening exfoliation</span><div class="card-tags"><span class="tag tag-skin">Skincare</span></div></div><span class="chevron">▾</span></div>
+        <div class="card-detail"><p class="detail-line">CeraVe SA Cleanser instead of regular cleanser. Chemical only. Before moisturiser.</p></div>
       </div></div>
     </div>
   </div>
+</div>
+
+<!-- ═══════════════ WEEKEND ═══════════════ -->
+<div class="tab-content" id="tab-weekend">
+  <div class="day-switcher">
+    <button class="day-btn active" onclick="showDay('sat',this)">🏋️ Saturday</button>
+    <button class="day-btn" onclick="showDay('sun',this)">😴 Sunday</button>
+  </div>
+
+  <!-- SATURDAY -->
+  <div class="day-panel active" id="day-sat">
+    <div class="section s-morning">
+      <div class="section-header"><div class="section-dot"></div><span class="section-label">Morning Block</span></div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">5:30 AM</span><span class="card-title">Wake up — Morning detox drink</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">Same recipe as weekdays. 300–350ml hot water · jeera · saunf · ajwain · haldi · black pepper · cinnamon. Steep 5–7 mins.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">5:45 AM</span><span class="card-title">Pre-workout shake + freshen up</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-train">Pre-workout</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">1 cup milk · 1 banana · 2 tsp peanut butter · 1 tsp honey · 1 tsp coffee · 1 scoop whey. Blend and drink. Quick wash, pat dry, CeraVe Cream.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">6:00 AM</span><span class="card-title">Workout — Saturday PPL session</span><div class="card-tags"><span class="tag tag-train">Training</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">~75 min session. Dynamic warm-up → Compounds → Accessories → Core → Cooldown.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">7:15 AM</span><span class="card-title">Post-workout shake + morning supplements</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">Creatine</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">1 scoop whey + 5g creatine. Drink immediately.</p>
+            <p class="detail-line">Morning supplements: Multivitamin · Biotin · Zinc · Liv 52 DS — take with breakfast.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item last-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">7:30 AM</span><span class="card-title">Breakfast</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">3 whole eggs + 2 multigrain toast. No office pack needed — eating at home all day.</p></div>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="section s-weekend">
+      <div class="section-header"><div class="section-dot"></div><span class="section-label">Saturday Tasks</span></div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">8:00 AM</span><span class="card-title">House cleaning + laundry</span><div class="card-tags"><span class="tag tag-prep">Chores</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">Get laundry running first — it runs while you clean. Sweep, mop, tidy. Collect everything that needs to go in the wash.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">9:30 AM</span><span class="card-title">Weekly body care — full routine</span><div class="card-tags"><span class="tag tag-skin">Skincare</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <span class="detail-heading">While laundry runs</span>
+            <p class="detail-line">Head-to-toe shower — body wash + loofah</p>
+            <p class="detail-line">CeraVe SA Cleanser on face and scalp (exfoliation day)</p>
+            <p class="detail-line">Face and scalp moisturise — CeraVe Moisturising Cream</p>
+            <p class="detail-line">Shave if needed — Gillette gel + Nivea Men balm after</p>
+            <p class="detail-line">Nail trimming + foot pumice on heels</p>
+            <p class="detail-line">Minoxidil 5% on dry scalp after moisturiser absorbs</p>
+            <p class="detail-line">Intimate wash · anti-chafe gel if needed</p>
+            <p class="detail-line">Full body moisturiser on damp skin post-shower</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">10:30 AM</span><span class="card-title">Grocery shopping</span><div class="card-tags"><span class="tag tag-prep">Errands</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">Saturday shop — take your list. ~1–1.5 hours. Pick fresh produce, meat, dairy for the week.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item last-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">12:30 PM</span><span class="card-title">Weekly food prep</span><div class="card-tags"><span class="tag tag-prep">Prep</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">Cook and portion chicken breast for 2–3 days</p>
+            <p class="detail-line">Boil a batch of 10–12 eggs</p>
+            <p class="detail-line">Make seed mix jar — flax + chia + sunflower + pumpkin</p>
+            <p class="detail-line">Wash and chop salad vegetables — store in containers</p>
+            <p class="detail-line">Cook rice batch if needed</p>
+          </div>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="section s-morning">
+      <div class="section-header"><div class="section-dot"></div><span class="section-label">Meals & Study</span></div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">12:00 PM</span><span class="card-title">Lunch</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">D3+K2</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">2 roti + daal + sabzi. D3+K2 with this meal.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">2:30 PM</span><span class="card-title">Study session 1 — 2.5 hours</span><div class="card-tags"><span class="tag tag-study">Study</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <span class="detail-heading">Structure</span>
+            <p class="detail-line">70 min deep work → 15 min break → 70 min deep work</p>
+            <span class="detail-heading">What to study</span>
+            <p class="detail-line">New material and hard concepts. Fresh afternoon mind — best heavy-study window on weekends.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">5:00 PM</span><span class="card-title">Afternoon snack + rest</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-rest">Rest</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">1 fruit + almonds + walnuts + 1 boiled egg. Rest, nap, or family time until 6:30 PM.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">7:45 PM</span><span class="card-title">Dinner</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">Omega-3</span><span class="tag tag-supp">Ashwagandha</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">180–200g chicken + fist-sized rice + salad + seed mix. Omega-3 + Ashwagandha with dinner. Paya soup if paya week — replaces or supplements this meal.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">8:30 PM</span><span class="card-title">Evening skincare</span><div class="card-tags"><span class="tag tag-skin">Skincare</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">Cetaphil cleanser · CeraVe cream on face and scalp · Minoxidil if not applied this morning.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">9:00 PM</span><span class="card-title">Study session 2 — 2.5–3 hours</span><div class="card-tags"><span class="tag tag-study">Study</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <span class="detail-heading">Structure</span>
+            <p class="detail-line">Two 70–80 min blocks with a 15 min break between.</p>
+            <span class="detail-heading">What to study</span>
+            <p class="detail-line">Review, consolidation, spaced repetition, reading. Lower intensity than afternoon session.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">11:45 PM</span><span class="card-title">Wind down + sleep</span><div class="card-tags"><span class="tag tag-supp">Magnesium</span><span class="tag tag-sleep">Sleep</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">Magnesium Glycinate 300–400mg. Screen off.</p>
+            <div class="notice notice-flag">⚑ Later sleep on Saturday — recover on Sunday. Don't let this push past midnight.</div>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item last-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">12:00 AM</span><span class="card-title">Sleep</span><div class="card-tags"><span class="tag tag-sleep">Sleep</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">~7 hours sleep. Wake by 7:00–7:30 AM Sunday.</p></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUNDAY -->
+  <div class="day-panel" id="day-sun">
+    <div class="section s-morning">
+      <div class="section-header"><div class="section-dot"></div><span class="section-label">Morning — Rest Day</span></div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">7:00 AM</span><span class="card-title">Wake up — Morning detox drink</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">Rest day — no alarm pressure. Wake naturally but no later than 7:30 AM. Morning detox drink same recipe.</p>
+            <div class="notice notice-good">✓ No workout today — active recovery only.</div>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">7:30 AM</span><span class="card-title">Light breakfast + morning supplements</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">Supplements</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">3 eggs + toast or fruit bowl. Morning supplements: Multivitamin · Biotin · Zinc · Liv 52 DS.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item last-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">8:30 AM</span><span class="card-title">Remaining house tasks + meal prep gaps</span><div class="card-tags"><span class="tag tag-prep">Chores</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">Fold laundry from Saturday. Any meal prep not done yesterday. Pack Monday office meals if possible.</p></div>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="section s-weekend">
+      <div class="section-header"><div class="section-dot"></div><span class="section-label">Study + Rest</span></div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">10:00 AM</span><span class="card-title">Mid-morning snack</span><div class="card-tags"><span class="tag tag-food">Food</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">Boiled eggs + dry fruits + seed mix.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">11:00 AM</span><span class="card-title">Study session 1 — 2.5 hours</span><div class="card-tags"><span class="tag tag-study">Study</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <span class="detail-heading">Structure</span>
+            <p class="detail-line">70 min → 15 min break → 70 min</p>
+            <span class="detail-heading">What to study</span>
+            <p class="detail-line">Second heavy study block of the weekend. New material or problem sets.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">1:30 PM</span><span class="card-title">Lunch</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">D3+K2</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">2 roti + daal + sabzi. D3+K2 with this meal.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">2:30 PM</span><span class="card-title">Nap or full rest</span><div class="card-tags"><span class="tag tag-rest">Rest</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">45–60 mins maximum. Longer disrupts Sunday night sleep which breaks Monday morning.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">4:00 PM</span><span class="card-title">Afternoon snack + light walk</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-rest">Active recovery</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">Fruit + nuts. Light walk or errands. No structured training — active recovery only.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">6:00 PM</span><span class="card-title">Study session 2 — 2.5–3 hours</span><div class="card-tags"><span class="tag tag-study">Study</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <span class="detail-heading">Structure</span>
+            <p class="detail-line">Two 70–80 min blocks with 15 min break.</p>
+            <span class="detail-heading">What to study</span>
+            <p class="detail-line">Evening consolidation — review, spaced repetition, light reading. Prep Monday study material.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">8:30 PM</span><span class="card-title">Dinner</span><div class="card-tags"><span class="tag tag-food">Food</span><span class="tag tag-supp">Omega-3</span><span class="tag tag-supp">Ashwagandha</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">180–200g chicken + rice + salad + seed mix. Omega-3 + Ashwagandha with meal.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">9:15 PM</span><span class="card-title">Evening skincare</span><div class="card-tags"><span class="tag tag-skin">Skincare</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail"><p class="detail-line">Cetaphil cleanser · CeraVe cream on face and scalp · Minoxidil 5%.</p></div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">10:00 PM</span><span class="card-title">Wind down + Monday prep</span><div class="card-tags"><span class="tag tag-supp">Magnesium</span><span class="tag tag-sleep">Sleep</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">Magnesium Glycinate 300–400mg. Pack office bag. Lay out gym clothes for Monday. Screen off.</p>
+          </div>
+        </div></div>
+      </div>
+
+      <div class="timeline-item last-item">
+        <div class="timeline-spine"><div class="spine-dot"></div><div class="spine-line"></div></div>
+        <div class="card-wrap"><div class="card" onclick="toggle(this)">
+          <div class="card-top"><div class="card-left"><span class="card-time">10:30 PM</span><span class="card-title">Sleep</span><div class="card-tags"><span class="tag tag-sleep">Sleep</span></div></div><span class="chevron">▾</span></div>
+          <div class="card-detail">
+            <p class="detail-line">Back to 5:30 AM Monday. Protect this bedtime — the whole weekday routine depends on it.</p>
+            <div class="notice notice-good">✓ 7 hours. Weekday routine starts again tomorrow.</div>
+          </div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 </main>
-
-<div class="footer">AATIF NAFEES &nbsp;·&nbsp; DAILY TIMETABLE &nbsp;·&nbsp; PPL RECOMPOSITION</div>
+<div class="footer">AATIF NAFEES &nbsp;·&nbsp; FULL WEEKLY TIMETABLE &nbsp;·&nbsp; PPL RECOMPOSITION</div>
 
 <script>
-  function toggle(card) {
-    const item = card.closest('.timeline-item');
-    item.classList.toggle('open');
-  }
+function toggle(card){
+  const item=card.closest('.timeline-item');
+  item.classList.toggle('open');
+}
+function showTab(id,btn){
+  document.querySelectorAll('.tab-content').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+function showDay(id,btn){
+  document.querySelectorAll('.day-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('day-'+id).classList.add('active');
+  btn.classList.add('active');
+}
 </script>
-
 </body>
 </html>
